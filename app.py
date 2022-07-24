@@ -2,7 +2,7 @@ import os
 import random
 import subprocess
 import base64
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, redirect, url_for
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
@@ -20,6 +20,10 @@ def exec_script():  # put application's code here
         result = e.output.decode('utf-8')
     os.remove(name)
     return make_response(result, 200)
+
+@app.route('/')
+def root():
+	return redirect(url_for('static', filename='index.html'))
 
 if __name__ == '__main__':
     app.run()
