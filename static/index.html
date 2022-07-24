@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>BrainF*ck Interpreter</title>
+        <link rel="stylesheet" type="text/css" href="index.css"/>
+        <script>
+            function execute() {
+                let text = btoa(document.getElementById("code").value)
+                fetch("/exec", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        code: text
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((response) => response.text()).then((html) => {
+                    document.getElementById("terminal").value = html
+                })
+            }
+        </script>
+    </head>
+    <body>
+        <div id="nav">
+                <div id="side1">
+                    <div id="interpret" onclick="execute()"/>
+                        Run your code<i class='icon-cog-alt'></i>
+                    </div>
+                    <div style="clear: both"></div>
+                </div>
+                <div style="clear: both"></div>
+        </div>
+<div id="container">
+        <div class="tile">
+                <textarea id="code" spellcheck="false" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}"></textarea>
+            </div>
+            <div class="tile">
+                <textarea id="terminal" readonly></textarea>
+            </div>
+            <div style="clear: both"></div>
+            <div id="footer">
+                Created by Aleksander Żukowski 2022 &copy; Creative Commons
+                Modified for Oasis by Oasis Developers.
+                <br/>
+                <a href="LICENSE.txt" style="color: #555;" target="blank">Icons License</a>
+            </div>
+        </div>
+    </body>
+</html>
